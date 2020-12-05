@@ -1040,31 +1040,14 @@ The release tools of jQAssistant require a specific way of declaring
 dependencies on other jQAssistant artifacts. The version information must
 be given in form of a Maven property with a specific name.
 
-A dependency on com.buschmais.jqassistant.neo4jserver:parent must be declared
+A dependency on com.buschmais.jqassistant.neo4j:embedded must be declared
 as follows:
 
 <dependency>
-    <groupId>com.buschmais.jqassistant.neo4jserver</groupId>
-    <artifactId>parent</artifactId>
+    <groupId>com.buschmais.jqassistant.neo4j</groupId>
+    <artifactId>embedded</artifactId>
     <version>${jqa-neo4jbackend.version}</version>
 </dependency>
-
-or
-
-<dependency>
-    <groupId>com.buschmais.jqassistant.neo4jserver</groupId>
-    <artifactId>parent</artifactId>
-    <type>test-jar</type>
-    <version>${jqa-neo4jbackend.version}</version>
-    <scope>test</scope>
-</dependency>
-
-The same applies for the following Maven artifacts too:
-
-- com.buschmais.jqassistant.neo4jserver:bootstrap
-- com.buschmais.jqassistant.neo4jserver:neo4jv3
-- com.buschmais.jqassistant.neo4jserver:test
-
     ]]></description>
 
         <cypher><![CDATA[
@@ -1073,10 +1056,10 @@ The same applies for the following Maven artifacts too:
         // other Maven related files as dependency-reduced-pom.xml
         MATCH (project:Maven:Project)-[:HAS_MODEL]->(pom:Pom )
                                      -[:DECLARES_DEPENDENCY|:MANAGES_DEPENDENCY]
-                                     ->(dependency { group: 'com.buschmais.jqassistant.neo4jserver' })
+                                     ->(dependency { group: 'com.buschmais.jqassistant.neo4j' })
         WHERE NOT pom.fileName =~ '.*dependency-reduced-pom.xml' AND
-              pom.groupId <> 'com.buschmais.jqassistant.neo4jserver' AND
-              dependency.name IN ['parent', 'bootstrap', 'neo4jv3', 'test'] AND
+              pom.groupId <> 'com.buschmais.jqassistant.neo4j' AND
+              dependency.name IN ['embedded'] AND
               dependency.version <> '${jqa-neo4jbackend.version}'
 
         RETURN dependency
